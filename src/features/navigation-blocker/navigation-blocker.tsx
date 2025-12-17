@@ -1,0 +1,27 @@
+"use client"
+
+import { createContext, useContext, useState } from "react"
+
+interface NavigationBlockerContextType {
+  isBlocked: boolean
+  setIsBlocked: (isBlocked: boolean) => void
+}
+
+export const NavigationBlockerContext = createContext<NavigationBlockerContextType>({
+  isBlocked: false,
+  setIsBlocked: () => {},
+})
+
+export function NavigationBlockerProvider({ children }: { children: React.ReactNode }) {
+  const [isBlocked, setIsBlocked] = useState(true)
+
+  return (
+    <NavigationBlockerContext.Provider value={{ isBlocked, setIsBlocked }}>
+      {children}
+    </NavigationBlockerContext.Provider>
+  )
+}
+
+export function useNavigationBlocker() {
+  return useContext(NavigationBlockerContext)
+}
