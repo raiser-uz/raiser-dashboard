@@ -10,7 +10,7 @@ export async function proxy(request: NextRequest) {
   const response = handleI18nRouting(request)
 
   const sessionToken = request.cookies.get("sessionToken")?.value
-  const locale = request.cookies.get("NEXT_LOCALE")?.value
+  const locale = request.cookies.get("NEXT_LOCALE")?.value || routing.defaultLocale
 
   if (!sessionToken && publicPages.includes(request.nextUrl.pathname.replace(`/${locale}`, "")) === false) {
     const loginUrl = new URL(`/${locale}${pages.login.href}`, request.url)
