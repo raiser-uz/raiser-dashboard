@@ -65,7 +65,7 @@ export const LoginForm = ({ className, ...props }: React.ComponentPropsWithoutRe
             </div>
             <div className="grid gap-2">
               <Label htmlFor="password">Password</Label>
-              <Input id="password" type="password" placeholder="Enter apssword" required />
+              <Input id="password" type="password" placeholder="Enter password" required />
             </div>
             <Button type="submit" className="w-full" size="lg">
               Login

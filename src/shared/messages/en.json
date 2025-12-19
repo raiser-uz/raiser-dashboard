@@ -1,0 +1,19 @@
+{
+  "name": "Raiser",
+  "features": {
+    "locale-switcher": {
+      "label": "Language",
+      "locales": {
+        "en": "English",
+        "ru": "Русский",
+        "uz": "O'zbekcha"
+      }
+    },
+    "mode-toggle": {
+      "label": "Toggle theme",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    }
+  }
+}

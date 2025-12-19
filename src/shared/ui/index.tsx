@@ -1,5 +1,10 @@
+import * as Icons from "./icons"
+
+export * from "./avatar"
+export * from "./breadcrumb"
 export * from "./button"
 export * from "./card"
+export * from "./collapsible"
 export * from "./dropdown-menu"
 export * from "./form"
 export * from "./input"
@@ -9,3 +14,6 @@ export * from "./sheet"
 export * from "./sidebar"
 export * from "./skeleton"
 export * from "./tooltip"
+
+export * from "./select"
+export { Icons }

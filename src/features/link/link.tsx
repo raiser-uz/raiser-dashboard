@@ -1,18 +1,17 @@
 "use client"
 
 import { useNavigationBlocker } from "features/navigation-blocker"
-import NextLink from "next/link"
+import { Link as IntlLink } from "i18n/navigation"
 
-interface CustomLinkProps extends React.ComponentProps<typeof NextLink> {
+interface CustomLinkProps extends React.ComponentProps<typeof IntlLink> {
   children: React.ReactNode
 }
 
 export const Link = ({ children, ...props }: CustomLinkProps) => {
   const { isBlocked } = useNavigationBlocker()
-  console.log("🚀 ~ Link ~ isBlocked:", isBlocked)
 
   return (
-    <NextLink
+    <IntlLink
       onNavigate={(e) => {
         if (isBlocked && !window.confirm("You have unsaved changes. Leave anyway?")) {
           e.preventDefault()
@@ -21,6 +20,6 @@ export const Link = ({ children, ...props }: CustomLinkProps) => {
       {...props}
     >
       {children}
-    </NextLink>
+    </IntlLink>
   )
 }

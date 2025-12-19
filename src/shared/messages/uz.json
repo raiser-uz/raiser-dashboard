@@ -1,0 +1,19 @@
+{
+  "name": "Raiser",
+  "features": {
+    "locale-switcher": {
+      "label": "Til",
+      "locales": {
+        "en": "English",
+        "ru": "Русский",
+        "uz": "O'zbekcha"
+      }
+    },
+    "mode-toggle": {
+      "label": "Mavzuni almashtirish",
+      "light": "Yorug'",
+      "dark": "Qorong'i",
+      "system": "Tizim"
+    }
+  }
+}
