@@ -3,18 +3,21 @@ import { NextRequest, NextResponse } from "next/server"
 
 import { routing } from "i18n/routing"
 import createMiddleware from "next-intl/middleware"
+import { getToken } from "shared/lib"
 
 const handleI18nRouting = createMiddleware(routing)
 
 export async function proxy(request: NextRequest) {
   const response = handleI18nRouting(request)
 
-  const sessionToken = request.cookies.get("sessionToken")?.value
+  const sessionToken = await getToken()
   const locale = request.cookies.get("NEXT_LOCALE")?.value || routing.defaultLocale
 
-  if (!sessionToken && publicPages.includes(request.nextUrl.pathname.replace(`/${locale}`, "")) === false) {
+  const currentPath = request.nextUrl.pathname.replace(`/${locale}`, "")
+
+  if (!sessionToken && publicPages.includes(currentPath) === false) {
     const loginUrl = new URL(`/${locale}${pages.login.href}`, request.url)
-    loginUrl.searchParams.set("from", request.nextUrl.pathname)
+    loginUrl.searchParams.set("from", currentPath)
 
     return NextResponse.redirect(loginUrl)
   }

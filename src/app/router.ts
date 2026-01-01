@@ -9,6 +9,9 @@ export const pages = {
   login: page("/login"),
   signUp: page("/sign-up"),
   soon: page("/soon"),
+  users: {
+    ...page("/users"),
+  },
 }
 
 export const protectedPages: string[] = [pages.index.href]

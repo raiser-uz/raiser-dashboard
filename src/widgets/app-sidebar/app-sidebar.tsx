@@ -2,6 +2,9 @@
 
 import * as React from "react"
 
+import { pages } from "app/router"
+import { Home, Users } from "lucide-react"
+import { warehouseApi } from "shared/api/init"
 import { Icons, Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from "shared/ui"
 import { NavMain } from "./ui/nav-main"
 import { NavProjects } from "./ui/nav-projects"
@@ -24,24 +27,35 @@ const data = {
   ],
   navMain: [
     {
-      title: "Analytics",
-      url: "#",
-      icon: Icons.DeviceAnalytics,
+      title: "Dashboard",
+      url: pages.index.href,
+      icon: Home,
       isActive: true,
-      items: [
-        {
-          title: "History",
-          url: "#",
-        },
-        {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
-      ],
+    },
+    // {
+    //   title: "Analytics",
+    //   url: "#",
+    //   icon: Icons.DeviceAnalytics,
+    //   isActive: true,
+    //   items: [
+    //     {
+    //       title: "History",
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Starred",
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Settings",
+    //       url: "#",
+    //     },
+    //   ],
+    // },
+    {
+      title: "Users",
+      url: pages.users.href,
+      icon: Users,
     },
   ],
   navSecondary: [
@@ -66,6 +80,8 @@ const data = {
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const user = warehouseApi.account.useGetCurrentUserImmutable()
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -76,7 +92,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser
+          user={{
+            name: [user.data?.firstName, user.data?.lastName].filter(Boolean).join(" "),
+            email: user.data?.email || "",
+            avatar: "/",
+          }}
+        />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

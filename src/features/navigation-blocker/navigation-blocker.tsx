@@ -13,7 +13,7 @@ export const NavigationBlockerContext = createContext<NavigationBlockerContextTy
 })
 
 export function NavigationBlockerProvider({ children }: { children: React.ReactNode }) {
-  const [isBlocked, setIsBlocked] = useState(true)
+  const [isBlocked, setIsBlocked] = useState(false)
 
   return (
     <NavigationBlockerContext.Provider value={{ isBlocked, setIsBlocked }}>

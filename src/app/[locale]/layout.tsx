@@ -7,6 +7,8 @@ import { ThemeProvider } from "next-themes"
 import { Inter } from "next/font/google"
 import { notFound } from "next/navigation"
 import "shared/styles/globals.css"
+import { Toaster } from "shared/ui"
+import { SWRConfig } from "swr"
 
 const inter = Inter({
   variable: "--font-sans",
@@ -34,11 +36,16 @@ export default async function RootLayout({ children, params }: Props) {
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className={`${inter.variable} antialiased`}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <NextIntlClientProvider>
-            <NavigationBlockerProvider>{children}</NavigationBlockerProvider>
-          </NextIntlClientProvider>
-        </ThemeProvider>
+        <SWRConfig>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+            <NextIntlClientProvider>
+              <NavigationBlockerProvider>
+                <Toaster richColors />
+                {children}
+              </NavigationBlockerProvider>
+            </NextIntlClientProvider>
+          </ThemeProvider>
+        </SWRConfig>
       </body>
     </html>
   )

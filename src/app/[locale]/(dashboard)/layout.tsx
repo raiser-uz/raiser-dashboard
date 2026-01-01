@@ -1,6 +1,7 @@
 import { pages } from "app/router"
 import { redirect } from "next/navigation"
 import { ReactNode } from "react"
+import { getToken } from "shared/lib"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -16,9 +17,14 @@ import { AppSidebar } from "widgets/app-sidebar"
 interface DashboardLayoutProps {
   children: ReactNode
 }
-const DashboardLayout = (props: DashboardLayoutProps) => {
+const DashboardLayout = async (props: DashboardLayoutProps) => {
+  const token = await getToken()
   if (process.env.IS_SOON === "true") {
     redirect(pages.soon.href)
+  }
+
+  if (!token) {
+    redirect(pages.login.href)
   }
 
   return (
