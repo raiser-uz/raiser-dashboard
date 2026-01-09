@@ -3,7 +3,7 @@
 import { usePathname, useRouter } from "i18n/navigation"
 import { routing } from "i18n/routing"
 import { useLocale, useTranslations } from "next-intl"
-import { useParams } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "shared/ui"
 
 export const LocaleSwitcher = () => {
@@ -11,11 +11,11 @@ export const LocaleSwitcher = () => {
   const locale = useLocale()
   const router = useRouter()
   const pathname = usePathname()
-  const params = useParams()
+  const searchParams = useSearchParams()
 
   const switchLocale = (newLocale: string) => {
     router.replace(
-      { pathname, query: params },
+      { pathname, query: Object.fromEntries(searchParams.entries()) },
       {
         locale: newLocale,
       },

@@ -52,7 +52,7 @@ export const LoginForm = ({ className, ...props }: React.ComponentPropsWithoutRe
         await setToken(response.accessToken)
         toast.success(t("success.title"))
 
-        const redirectTo = searchParams.get("from") || pages.index.href
+        const redirectTo = pages.index.href
 
         router.replace(redirectTo)
       })
@@ -115,13 +115,19 @@ export const LoginForm = ({ className, ...props }: React.ComponentPropsWithoutRe
                 )}
               />
             </div>
-            <Button type="submit" className="w-full" size="lg">
+            <Button
+              type="submit"
+              className="w-full"
+              size="lg"
+              isLoading={form.formState.isSubmitting}
+              loadingLabel={t("submit.loading-label")}
+            >
               {t("submit.label")}
             </Button>
           </div>
         </form>
       </Form>
-      <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 [&_a]:hover:text-primary  ">
+      <p className="w-full text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 [&_a]:hover:text-primary  ">
         {t.rich("terms", {
           terms: (children) => (
             <Link href="#" className="underline underline-offset-4">
@@ -134,7 +140,7 @@ export const LoginForm = ({ className, ...props }: React.ComponentPropsWithoutRe
             </Link>
           ),
         })}
-      </div>
+      </p>
     </div>
   )
 }
