@@ -16,10 +16,7 @@ export async function proxy(request: NextRequest) {
   const currentPath = request.nextUrl.pathname.replace(`/${locale}`, "")
 
   if (!sessionToken && publicPages.includes(currentPath) === false) {
-    const loginUrl = new URL(`/${locale}${pages.login.href}`, request.url)
-    loginUrl.searchParams.set("from", currentPath)
-
-    return NextResponse.redirect(loginUrl)
+    return NextResponse.redirect(pages.login.href)
   }
 
   return response
