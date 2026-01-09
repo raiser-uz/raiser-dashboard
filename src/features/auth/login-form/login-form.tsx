@@ -9,7 +9,7 @@ import { pages } from "app/router"
 import { useRouter } from "i18n/navigation"
 import { useTranslations } from "next-intl"
 import Link from "next/link"
-import { useSearchParams } from "next/navigation"
+import { useState } from "react"
 import { warehouseApi } from "shared/api/init"
 import { setToken } from "shared/lib"
 import { Button, Form, FormControl, FormField, FormItem, FormLabel, FormMessage, Input } from "shared/ui"
@@ -19,7 +19,7 @@ import { z } from "zod"
 export const LoginForm = ({ className, ...props }: React.ComponentPropsWithoutRef<"div">) => {
   const t = useTranslations("features.auth.login-form")
   const router = useRouter()
-  const searchParams = useSearchParams()
+  const [isLoading, setIsLoading] = useState(false)
 
   const formSchema = z.object({
     username: z.string().min(1, t("username.required")),
@@ -41,15 +41,21 @@ export const LoginForm = ({ className, ...props }: React.ComponentPropsWithoutRe
   })
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    if (isLoading) return
+
+    setIsLoading(true)
+
     await warehouseApi.authentication
       .login({
         username: values.username,
         password: values.password,
       })
       .then(async (response) => {
-        if (!response.accessToken) throw new Error(t("error.description"))
+        if (!response.accessToken || !response.refreshToken) {
+          throw new Error(t("error.description"))
+        }
 
-        await setToken(response.accessToken)
+        await setToken(response.accessToken, response.refreshToken, 30)
         toast.success(t("success.title"))
 
         const redirectTo = pages.index.href
@@ -60,6 +66,9 @@ export const LoginForm = ({ className, ...props }: React.ComponentPropsWithoutRe
         toast.error(t("error.title"), {
           description: error.response?.data?.message || t("error.description"),
         })
+      })
+      .finally(() => {
+        setIsLoading(false)
       })
   }
 
@@ -119,7 +128,7 @@ export const LoginForm = ({ className, ...props }: React.ComponentPropsWithoutRe
               type="submit"
               className="w-full"
               size="lg"
-              isLoading={form.formState.isSubmitting}
+              isLoading={isLoading}
               loadingLabel={t("submit.loading-label")}
             >
               {t("submit.label")}
